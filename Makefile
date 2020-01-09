@@ -13,6 +13,7 @@ LINK =
 .SUFFIXES:
 
 obj/%.o: src/%.cpp $(HDRS)
+	mkdir -p `dirname $@`
 	$(CXX) $(CFLAGS) $< -c -o $@
 
 bignum_test: obj/main.o $(OBJ)
