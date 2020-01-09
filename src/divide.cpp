@@ -1,18 +1,21 @@
 #include "bignum.hpp"
 
-void BigNum::divrem(const BigNum *dividend_ptr, const BigNum *divisor_ptr)
+void BigNum::divrem(const BigNum *dividend_ptr, const BigNum *divisor_ptr, BigNum *quotient, BigNum *remainder)
 {
-  BigNum remainder = (*dividend_ptr);
-  BigNum quotient(0);
+  BigNum _remainder = (*dividend_ptr);
+  BigNum _quotient(0);
   const BigNum one(1);
   const BigNum divisor = (*divisor_ptr);
-  while (remainder > BigNum(0)) {
-    remainder = remainder - divisor;
-    quotient = quotient + one;
+  while (_remainder > BigNum(0)) {
+    _remainder = _remainder - divisor;
+    _quotient = _quotient + one;
   }
 
-  this->last_quotient = quotient.digits;
-  this->last_remainder = remainder.digits;
+  if (quotient != NULL)
+    (*quotient) = _quotient;
+
+  if (remainder != NULL)
+    (*remainder) = _remainder;
 
 }
 

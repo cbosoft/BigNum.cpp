@@ -22,15 +22,12 @@ class BigNum {
   
 private:
   std::vector<digit> digits;
-  std::vector<digit> last_divisor;
-  std::vector<digit> last_quotient;
-  std::vector<digit> last_remainder;
   bool negative;
 
   static BigNum add (const BigNum *bigger, const BigNum *smaller);
   static BigNum subtract(const BigNum *bigger, const BigNum *smaller);
   static BigNum multiply(const BigNum *bigger, const BigNum *smaller);
-  void divrem(const BigNum *bigger, const BigNum *smaller);
+  static void divrem(const BigNum *bigger, const BigNum *smaller, BigNum *quotient, BigNum *remainder);
 
   void normalise()
   {
@@ -121,22 +118,20 @@ public:
 
   BigNum operator/(const BigNum &other)
   {
-    // TODO caching
-    BigNum::divrem(this, &other);
-    BigNum result;
-    result.digits = last_quotient;
-    result.negative = (other.negative != this->negative);
-    return result;
+    BigNum quotient;
+    BigNum::divrem(this, &other, &quotient, NULL);
+    quotient.negative = (other.negative != this->negative);
+    return quotient;
   }
 
   BigNum operator%(const BigNum &other)
   {
-    // TODO caching
-    BigNum::divrem(this, &other);
-    BigNum result;
-    result.digits = this->last_remainder;
-    //result.negative = (other->negative != this->negative); // ? negative modulo?
-    return result;
+    BigNum remainder;
+    BigNum::divrem(this, &other, NULL, &remainder);
+    if (other.negative) {
+      remainder = remainder - other;
+    }
+    return remainder;
   }
 
   bool operator>(const BigNum &other)
