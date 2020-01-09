@@ -1,5 +1,8 @@
 #include "bignum.hpp"
 
+// This is a very, VERY, simple algorithm to calculate the quotient of a
+// unsigned integer dividend divided by an unisgned integer divisor. The
+// remainder is also output.
 void BigNum::divrem(const BigNum *dividend_ptr, const BigNum *divisor_ptr, BigNum *quotient, BigNum *remainder)
 {
   BigNum _remainder = (*dividend_ptr);
